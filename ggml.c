@@ -7350,6 +7350,8 @@ static struct ggml_tensor * ggml_unary_impl(
         struct ggml_tensor * a,
         enum ggml_unary_op op,
         bool inplace) {
+    GGML_ASSERT(ggml_is_contiguous_1(a));
+
     bool is_node = false;
 
     if (!inplace && (a->grad)) {
@@ -11014,6 +11016,8 @@ static void ggml_compute_forward_abs_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11022,9 +11026,6 @@ static void ggml_compute_forward_abs_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_abs_f32(nc,
@@ -11060,6 +11061,8 @@ static void ggml_compute_forward_sgn_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11068,9 +11071,6 @@ static void ggml_compute_forward_sgn_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_sgn_f32(nc,
@@ -11106,6 +11106,8 @@ static void ggml_compute_forward_neg_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11114,9 +11116,6 @@ static void ggml_compute_forward_neg_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_neg_f32(nc,
@@ -11152,6 +11151,8 @@ static void ggml_compute_forward_step_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11160,9 +11161,6 @@ static void ggml_compute_forward_step_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_step_f32(nc,
@@ -11198,6 +11196,8 @@ static void ggml_compute_forward_tanh_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11206,9 +11206,6 @@ static void ggml_compute_forward_tanh_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_tanh_f32(nc,
@@ -11244,6 +11241,8 @@ static void ggml_compute_forward_elu_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11252,9 +11251,6 @@ static void ggml_compute_forward_elu_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_elu_f32(nc,
@@ -11290,6 +11286,8 @@ static void ggml_compute_forward_relu_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11298,9 +11296,6 @@ static void ggml_compute_forward_relu_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_relu_f32(nc,
@@ -11336,6 +11331,8 @@ static void ggml_compute_forward_sigmoid_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11344,9 +11341,6 @@ static void ggml_compute_forward_sigmoid_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_sigmoid_f32(nc,
@@ -11381,9 +11375,9 @@ static void ggml_compute_forward_gelu_f32(
 
     const struct ggml_tensor * src0 = dst->src[0];
 
-    GGML_ASSERT(ggml_is_contiguous_1(src0));
-    GGML_ASSERT(ggml_is_contiguous_1(dst));
-    GGML_ASSERT(ggml_are_same_shape(src0, dst));
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
+    assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
         return;
@@ -11444,9 +11438,9 @@ static void ggml_compute_forward_gelu_quick_f32(
 
     const struct ggml_tensor * src0 = dst->src[0];
 
-    GGML_ASSERT(ggml_is_contiguous_1(src0));
-    GGML_ASSERT(ggml_is_contiguous_1(dst));
-    GGML_ASSERT(ggml_are_same_shape(src0, dst));
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
+    assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
         return;
@@ -11507,9 +11501,9 @@ static void ggml_compute_forward_silu_f32(
 
     const struct ggml_tensor * src0 = dst->src[0];
 
-    GGML_ASSERT(ggml_is_contiguous_1(src0));
-    GGML_ASSERT(ggml_is_contiguous_1(dst));
-    GGML_ASSERT(ggml_are_same_shape(src0, dst));
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
+    assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
         return;
@@ -11570,6 +11564,8 @@ static void ggml_compute_forward_leaky_relu_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11619,11 +11615,11 @@ static void ggml_compute_forward_silu_back_f32(
     const struct ggml_tensor * src0 = dst->src[0];
     const struct ggml_tensor * grad = dst->src[1];
 
-    GGML_ASSERT(ggml_is_contiguous_1(grad));
-    GGML_ASSERT(ggml_is_contiguous_1(src0));
-    GGML_ASSERT(ggml_is_contiguous_1(dst));
-    GGML_ASSERT(ggml_are_same_shape(src0, dst));
-    GGML_ASSERT(ggml_are_same_shape(src0, grad));
+    assert(ggml_is_contiguous_1(grad));
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
+    assert(ggml_are_same_shape(src0, dst));
+    assert(ggml_are_same_shape(src0, grad));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
         return;
@@ -11685,6 +11681,8 @@ static void ggml_compute_forward_hardswish_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11693,9 +11691,6 @@ static void ggml_compute_forward_hardswish_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_hardswish_f32(nc,
@@ -11728,6 +11723,8 @@ static void ggml_compute_forward_hardsigmoid_f32(
     const struct ggml_tensor * src0 = dst->src[0];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -11736,9 +11733,6 @@ static void ggml_compute_forward_hardsigmoid_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert(dst->nb[0]  == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         ggml_vec_hardsigmoid_f32(nc,
@@ -16686,7 +16680,10 @@ static void ggml_compute_forward_map_unary_f32(
 
     const struct ggml_tensor * src0 = dst->src[0];
 
-    GGML_ASSERT(ggml_are_same_shape(src0, dst));
+    assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(dst));
+    assert(ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
         return;
@@ -16694,9 +16691,6 @@ static void ggml_compute_forward_map_unary_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert( dst->nb[0] == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         fun(nc,
@@ -16735,6 +16729,9 @@ static void ggml_compute_forward_map_binary_f32(
     const struct ggml_tensor * src1 = dst->src[1];
 
     assert(params->ith == 0);
+    assert(ggml_is_contiguous_1(src0));
+    assert(ggml_is_contiguous_1(src1));
+    assert(ggml_is_contiguous_1(dst));
     assert(ggml_are_same_shape(src0, src1) && ggml_are_same_shape(src0, dst));
 
     if (params->type == GGML_TASK_TYPE_INIT || params->type == GGML_TASK_TYPE_FINALIZE) {
@@ -16743,10 +16740,6 @@ static void ggml_compute_forward_map_binary_f32(
 
     const int n  = ggml_nrows(src0);
     const int nc = src0->ne[0];
-
-    assert( dst->nb[0] == sizeof(float));
-    assert(src0->nb[0] == sizeof(float));
-    assert(src1->nb[0] == sizeof(float));
 
     for (int i = 0; i < n; i++) {
         fun(nc,
