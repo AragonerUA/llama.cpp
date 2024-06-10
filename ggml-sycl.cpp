@@ -13089,12 +13089,10 @@ void *ggml_sycl_host_malloc(size_t size) try {
         return nullptr;
     }
 
-    ggml_sycl_set_device(g_main_device);
-    dpct::queue_ptr main_stream = g_syclStreams[g_main_device][0];
-
     void * ptr = nullptr;
+    //allow to use dpct::get_in_order_queue() for host malloc
     dpct::err0 err = CHECK_TRY_ERROR(
-        ptr = (void *)sycl::malloc_host(size, *main_stream));
+        ptr = (void *)sycl::malloc_host(size, dpct::get_in_order_queue()));
 
     if (err != 0) {
         // clear the error
@@ -13115,9 +13113,8 @@ catch (sycl::exception const &exc) {
 }
 
 void ggml_sycl_host_free(void *ptr) try {
-    ggml_sycl_set_device(g_main_device);
-    dpct::queue_ptr main_stream = g_syclStreams[g_main_device][0];
-    SYCL_CHECK(CHECK_TRY_ERROR(sycl::free(ptr, *main_stream)));
+    //allow to use dpct::get_in_order_queue() for host malloc
+    SYCL_CHECK(CHECK_TRY_ERROR(sycl::free(ptr, dpct::get_in_order_queue())));
 }
 catch (sycl::exception const &exc) {
   std::cerr << exc.what() << "Exception caught at file:" << __FILE__
